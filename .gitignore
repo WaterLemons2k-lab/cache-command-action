@@ -2,6 +2,7 @@
 coverage
 lib
 node_modules
+package-lock.json
 
 # Default file used as the cache file
 .cache-command-action-file
