@@ -1,4 +1,4 @@
-import { createFile, deleteFile } from '../file';
+import { _createFile, _deleteFile } from './internal/file';
 import { restoreCache, saveCache } from '@actions/cache';
 
 /**
@@ -20,7 +20,7 @@ export const isCacheFound = async (
 
   if (!cacheOutput) {
     // Create a cache file to be used as a placeholder before saving cache
-    createFile(file);
+    _createFile(file);
     const cacheId = await saveCache([file], output);
 
     if (cacheId !== -1) {
@@ -28,7 +28,7 @@ export const isCacheFound = async (
     }
 
     // Delete the file after saving cache as it is no longer needed
-    deleteFile(file);
+    _deleteFile(file);
     return false;
   }
 
