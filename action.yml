@@ -1,5 +1,5 @@
-name: "cache-command-action"
-description: ""
+name: 'cache-command-action'
+description: ''
 
 inputs:
   run:
@@ -13,5 +13,5 @@ outputs:
     description: 'Output of the command'
 
 runs:
-  using: "node16"
-  main: "dist/index.js"
+  using: 'node20'
+  main: 'dist/index.js'
