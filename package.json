@@ -12,7 +12,7 @@
   },
   "name": "cache-command-action",
   "version": "1.0.0",
-  "packageManager": "pnpm@8.6.12",
+  "packageManager": "pnpm@8.7.4",
   "main": "lib/index.js",
   "dependencies": {
     "@actions/cache": "^3.2.2",
