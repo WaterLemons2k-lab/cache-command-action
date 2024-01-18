@@ -12,7 +12,7 @@ jobs:
         run: touch ~/.cache
         
       - name: Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache
           key: ''
