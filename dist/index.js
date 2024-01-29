@@ -165720,6 +165720,7 @@ function run(file) {
                     cacheFound = _a.sent();
                     console.log("Cache found: ".concat(cacheFound));
                     coreExports.setOutput("hit", cacheFound);
+                    console.log("All done.");
                     return [2 /*return*/];
             }
         });

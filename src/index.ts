@@ -11,6 +11,7 @@ async function run(file: string): Promise<void> {
   const cacheFound = await isCacheFound(file, output);
   console.log(`Cache found: ${cacheFound}`);
   setOutput("hit", cacheFound);
+  console.log("All done.");
 }
 
 // Cache file used as a placeholder
