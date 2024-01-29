@@ -1,5 +1,5 @@
-import { _createFile, _deleteFile } from './internal/file';
-import { restoreCache, saveCache } from '@actions/cache';
+import { _createFile, _deleteFile } from "./internal/file";
+import * as cache from "@actions/cache";
 
 /**
  * Return true if found the cache, otherwize return false.
@@ -7,21 +7,18 @@ import { restoreCache, saveCache } from '@actions/cache';
  * @param output an explicit output for found the cache
  * @returns boolean
  */
-export const isCacheFound = async (
+export async function isCacheFound(
   file: string,
   output: string
-): Promise<boolean> => {
-  const cacheOutput = await restoreCache(
-    [file],
-    output,
-    [],
-    { lookupOnly: true }
-  );
+): Promise<boolean> {
+  const cacheOutput = await cache.restoreCache([file], output, [], {
+    lookupOnly: true,
+  });
 
   if (!cacheOutput) {
     // Create a cache file to be used as a placeholder before saving cache
     _createFile(file);
-    const cacheId = await saveCache([file], output);
+    const cacheId = await cache.saveCache([file], output);
 
     if (cacheId !== -1) {
       console.log(`Cache saved with output: ${output}`);
@@ -34,4 +31,4 @@ export const isCacheFound = async (
 
   console.log(`Cache found from output: ${output}`);
   return true;
-};
+}
