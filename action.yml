@@ -1,17 +1,17 @@
-name: 'cache-command-action'
-description: ''
+name: "cache-command-action"
+description: ""
 
 inputs:
   run:
-    description: 'A command that will run to get the output and use it as a key'
+    description: "A command that will run to get the output and use it as a key"
     required: true
 
 outputs:
   hit:
-    description: 'A boolean value to indicate an exact match was found for the key'
+    description: "A boolean value to indicate an exact match was found for the key"
   output:
-    description: 'Output of the command'
+    description: "Output of the command"
 
 runs:
-  using: 'node20'
-  main: 'dist/index.js'
+  using: "node16"
+  main: "dist/index.js"

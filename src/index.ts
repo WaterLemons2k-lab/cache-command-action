@@ -9,8 +9,7 @@ async function run(file: string): Promise<void> {
 
   // Set the output hit depending on whether the cache is found or not
   const cacheFound = await isCacheFound(file, output);
-  console.log(cacheFound);
-  // setOutput("hit", cacheFound);
+  setOutput("hit", cacheFound);
 }
 
 // Cache file used as a placeholder
