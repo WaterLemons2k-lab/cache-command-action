@@ -169,21 +169,6 @@ typeof SuppressedError === "function" ? SuppressedError : function (error, suppr
     return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
 };
 
-/**
- * Create a empty file
- * @param file File to be created
- */
-var _createFile = function (file) {
-    node_fs.closeSync(node_fs.openSync(file, 'w'));
-};
-/**
- * Delete a file
- * @param file File to be deleted
- */
-var _deleteFile = function (file) {
-    node_fs.unlinkSync(file);
-};
-
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function getDefaultExportFromCjs (x) {
@@ -6479,11 +6464,11 @@ function requireDataURL () {
 	return dataURL;
 }
 
-var file;
+var file$1;
 var hasRequiredFile;
 
 function requireFile () {
-	if (hasRequiredFile) return file;
+	if (hasRequiredFile) return file$1;
 	hasRequiredFile = 1;
 
 	const { Blob, File: NativeFile } = require$$7;
@@ -6827,8 +6812,8 @@ function requireFile () {
 	  )
 	}
 
-	file = { File, FileLike, isFileLike };
-	return file;
+	file$1 = { File, FileLike, isFileLike };
+	return file$1;
 }
 
 var formdata;
@@ -165654,10 +165639,10 @@ function saveCache(paths, key, options, enableCrossOsArchive = false) {
 saveCache_1 = cache$1.saveCache = saveCache;
 
 /**
- * Return true if found the cache, otherwize return false.
+ * Check if the cache has been found
  * @param file The file to be found from the cache
  * @param output an explicit output for found the cache
- * @returns boolean
+ * @returns True if the cache found, false otherwise
  */
 function isCacheFound(file, output) {
     return __awaiter$d(this, void 0, void 0, function () {
@@ -165670,8 +165655,8 @@ function isCacheFound(file, output) {
                 case 1:
                     cacheOutput = _a.sent();
                     if (!!cacheOutput) return [3 /*break*/, 3];
-                    // Create a cache file to be used as a placeholder before saving cache
-                    _createFile(file);
+                    // Create the cache file to be used as a placeholder before saving cache
+                    node_fs.closeSync(node_fs.openSync(file, "w"));
                     return [4 /*yield*/, saveCache_1([file], output)];
                 case 2:
                     cacheId = _a.sent();
@@ -165679,7 +165664,7 @@ function isCacheFound(file, output) {
                         console.log("Cache saved with output: ".concat(output));
                     }
                     // Delete the file after saving cache as it is no longer needed
-                    _deleteFile(file);
+                    node_fs.unlinkSync(file);
                     return [2 /*return*/, false];
                 case 3:
                     console.log("Cache found from output: ".concat(output));
@@ -165699,47 +165684,46 @@ var coreExports = requireCore();
  * Must be correctly escaped.
  * @returns Promise<string> stdout
  */
-var getCommandOutput = function (command) { return __awaiter$d(void 0, void 0, void 0, function () {
-    var stdout, output;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                coreExports.startGroup('Getting command output');
-                return [4 /*yield*/, getExecOutput_1(command)];
-            case 1:
-                stdout = (_a.sent()).stdout;
-                output = stdout.trim();
-                if (output.length === 0) {
-                    throw new Error("The stdout of ".concat(command, " cannot be null or empty!"));
-                }
-                coreExports.endGroup();
-                return [2 /*return*/, output];
-        }
+function getCommandOutput(command, trim) {
+    if (trim === void 0) { trim = true; }
+    return __awaiter$d(this, void 0, void 0, function () {
+        var stdout, output;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    coreExports.startGroup("Getting command output");
+                    return [4 /*yield*/, getExecOutput_1(command)];
+                case 1:
+                    stdout = (_a.sent()).stdout;
+                    output = trim ? stdout.trim() : stdout;
+                    if (!output) {
+                        throw new Error("The stdout of ".concat(command, " cannot be null or empty!"));
+                    }
+                    coreExports.endGroup();
+                    return [2 /*return*/, output];
+            }
+        });
     });
-}); };
+}
 
-var run = function () { return __awaiter$d(void 0, void 0, void 0, function () {
-    var output, file, _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0: return [4 /*yield*/, getCommandOutput(coreExports.getInput('run', { required: true }))];
-            case 1:
-                output = _c.sent();
-                coreExports.setOutput('output', output);
-                file = '.cache-command-action-file';
-                // Set the output hit depending on whether the cache is found or not
-                _a = coreExports.setOutput;
-                _b = ['hit'];
-                return [4 /*yield*/, isCacheFound(file, output)];
-            case 2:
-                // Set the output hit depending on whether the cache is found or not
-                _a.apply(void 0, _b.concat([_c.sent()]));
-                return [2 /*return*/];
-        }
+function run(file) {
+    return __awaiter$d(this, void 0, void 0, function () {
+        var output, cacheFound;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, getCommandOutput(coreExports.getInput("run", { required: true }))];
+                case 1:
+                    output = _a.sent();
+                    coreExports.setOutput("output", output);
+                    return [4 /*yield*/, isCacheFound(file, output)];
+                case 2:
+                    cacheFound = _a.sent();
+                    coreExports.setOutput("hit", cacheFound);
+                    return [2 /*return*/];
+            }
+        });
     });
-}); };
-run().catch(function (err) {
-    // Ensure output hit is false
-    coreExports.setOutput('hit', false);
-    coreExports.setFailed(err.message);
-});
+}
+// Cache file used as a placeholder
+var file = ".cache-command-action-file";
+run(file).catch(function (err) { return coreExports.setFailed(err.message); });
