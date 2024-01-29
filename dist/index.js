@@ -165715,10 +165715,10 @@ function run(file) {
                 case 1:
                     output = _a.sent();
                     coreExports.setOutput("output", output);
-                    coreExports.setOutput("something", false);
                     return [4 /*yield*/, isCacheFound(file, output)];
                 case 2:
                     cacheFound = _a.sent();
+                    console.log("Cache found: ".concat(cacheFound));
                     coreExports.setOutput("hit", cacheFound);
                     return [2 /*return*/];
             }
