@@ -165718,9 +165718,7 @@ function run(file) {
                     return [4 /*yield*/, isCacheFound(file, output)];
                 case 2:
                     cacheFound = _a.sent();
-                    console.log("Cache found: ".concat(cacheFound));
-                    coreExports.setOutput("hit", cacheFound);
-                    console.log("All done.");
+                    console.log(cacheFound);
                     return [2 /*return*/];
             }
         });
