@@ -26,14 +26,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: pnpm run
-        run: |
-          pnpm run build
+      - run: pnpm run build
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
       - uses: ./
         id: cache
         with:
-          run: pnpm -v
+          run: node -v
 
       - name: Get outputs
         if: always()
