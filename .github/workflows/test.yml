@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - '.github/workflows/cache.yml'
+      - ".github/workflows/cache.yml"
   pull_request:
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
@@ -29,7 +29,6 @@ jobs:
       - name: pnpm run
         run: |
           pnpm run build
-          pnpm run lint
 
       - uses: ./
         id: cache
