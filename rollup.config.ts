@@ -9,5 +9,13 @@ export default {
     file: "dist/index.js",
     format: "cjs",
   },
-  plugins: [typescript(), resolve(), commonjs(), json()],
+  plugins: [
+    typescript(),
+    resolve({
+      // https://github.com/uuidjs/uuid/issues/544#issuecomment-740394448
+      exportConditions: ["node"],
+    }),
+    commonjs(),
+    json(),
+  ],
 };
