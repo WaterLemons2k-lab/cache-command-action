@@ -165726,4 +165726,4 @@ function run(file) {
 }
 // Cache file used as a placeholder
 var file = ".cache-command-action-file";
-run(file).catch(function (err) { return coreExports.setFailed(err.message); });
+run(file);

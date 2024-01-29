@@ -16,4 +16,4 @@ async function run(file: string): Promise<void> {
 // Cache file used as a placeholder
 const file = ".cache-command-action-file";
 
-run(file).catch((err) => setFailed(err.message));
+run(file);
