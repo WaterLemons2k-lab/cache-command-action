@@ -165664,9 +165664,7 @@ function isCacheFound(file, output) {
                         console.log("Cache saved with output: ".concat(output));
                     }
                     // Delete the file after saving cache as it is no longer needed
-                    console.log("Starting to delete cache file: ".concat(file));
                     node_fs.unlinkSync(file);
-                    console.log("Deleted cache file: ".concat(file));
                     return [2 /*return*/, false];
                 case 3:
                     console.log("Cache found from output: ".concat(output));
@@ -165717,6 +165715,7 @@ function run(file) {
                 case 1:
                     output = _a.sent();
                     coreExports.setOutput("output", output);
+                    coreExports.setOutput("something", false);
                     return [4 /*yield*/, isCacheFound(file, output)];
                 case 2:
                     cacheFound = _a.sent();

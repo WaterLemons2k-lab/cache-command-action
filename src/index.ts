@@ -6,6 +6,7 @@ async function run(file: string): Promise<void> {
   // Getting the output of the input run
   const output = await getCommandOutput(getInput("run", { required: true }));
   setOutput("output", output);
+  setOutput("something", false);
 
   // Set the output hit depending on whether the cache is found or not
   const cacheFound = await isCacheFound(file, output);

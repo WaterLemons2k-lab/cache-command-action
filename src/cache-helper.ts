@@ -25,9 +25,7 @@ export default async function isCacheFound(
     }
 
     // Delete the file after saving cache as it is no longer needed
-    console.log(`Starting to delete cache file: ${file}`);
     unlinkSync(file);
-    console.log(`Deleted cache file: ${file}`);
     return false;
   }
 
