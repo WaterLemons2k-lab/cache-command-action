@@ -165376,24 +165376,31 @@ function isCacheFound(file, output) {
     });
 }
 
-var coreExports = requireCore();
+function getInput(name, required) {
+    var v = process.env["INPUT_".concat(name.toUpperCase())];
+    if (required && !v)
+        throw new Error("Input required and not supplied: ".concat(name));
+    return v.trim();
+}
+function setOutput(name, value) {
+    fs$6.appendFileSync(process.env["GITHUB_OUTPUT"], "".concat(name, "=").concat(value, "\n"));
+}
 
 function run(file) {
     return __awaiter$d(this, void 0, void 0, function () {
         var output, cacheFound;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getExecOutput_1(coreExports.getInput("run", { required: true }))];
+                case 0: return [4 /*yield*/, getExecOutput_1(getInput("run", true))];
                 case 1:
                     output = (_a.sent()).stdout.trim();
-                    if (!output) {
-                        throw new Error("Stdout is empty");
-                    }
-                    coreExports.setOutput("output", output);
+                    if (!output)
+                        throw new Error("Stdout is null");
+                    setOutput("output", output);
                     return [4 /*yield*/, isCacheFound(file, output)];
                 case 2:
                     cacheFound = _a.sent();
-                    coreExports.setOutput("hit", cacheFound);
+                    setOutput("hit", cacheFound);
                     return [2 /*return*/];
             }
         });

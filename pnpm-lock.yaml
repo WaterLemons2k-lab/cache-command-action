@@ -8,9 +8,6 @@ dependencies:
   '@actions/cache':
     specifier: ^3.2.3
     version: 3.2.3
-  '@actions/core':
-    specifier: ^1.10.1
-    version: 1.10.1
   '@actions/exec':
     specifier: ^1.1.1
     version: 1.1.1
@@ -34,9 +31,6 @@ devDependencies:
   '@types/node':
     specifier: ^20.11.10
     version: 20.11.10
-  '@vercel/ncc':
-    specifier: ^0.38.1
-    version: 0.38.1
   jest:
     specifier: ^29.7.0
     version: 29.7.0(@types/node@20.11.10)(ts-node@10.9.2)
@@ -1154,11 +1148,6 @@ packages:
       '@types/yargs-parser': 21.0.3
     dev: true
 
-  /@vercel/ncc@0.38.1:
-    resolution: {integrity: sha512-IBBb+iI2NLu4VQn3Vwldyi2QwaXt5+hTyh58ggAMoCGE6DJmPvwL3KPBWcJl1m9LYPChBLE980Jw+CS4Wokqxw==}
-    hasBin: true
-    dev: true
-
   /abort-controller@3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
     engines: {node: '>=6.5'}
@@ -1330,7 +1319,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001581
-      electron-to-chromium: 1.4.648
+      electron-to-chromium: 1.4.650
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.3)
     dev: true
@@ -1542,8 +1531,8 @@ packages:
     engines: {node: '>=0.3.1'}
     dev: true
 
-  /electron-to-chromium@1.4.648:
-    resolution: {integrity: sha512-EmFMarXeqJp9cUKu/QEciEApn0S/xRcpZWuAm32U7NgoZCimjsilKXHRO9saeEW55eHZagIDg6XTUOv32w9pjg==}
+  /electron-to-chromium@1.4.650:
+    resolution: {integrity: sha512-sYSQhJCJa4aGA1wYol5cMQgekDBlbVfTRavlGZVr3WZpDdOPcp6a6xUnFfrt8TqZhsBYYbDxJZCjGfHuGupCRQ==}
     dev: true
 
   /emittery@0.13.1:

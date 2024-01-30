@@ -1,16 +1,11 @@
 import isCacheFound from "./cache-helper";
 import { getExecOutput } from "@actions/exec";
-import { getInput, setOutput } from "@actions/core";
+import { getInput, setOutput } from "./io-helper";
 
 async function run(file: string): Promise<void> {
-  // Getting the output of the input run
-  const output = (
-    await getExecOutput(getInput("run", { required: true }))
-  ).stdout.trim();
+  const output = (await getExecOutput(getInput("run", true))).stdout.trim();
+  if (!output) throw new Error("Stdout is null");
 
-  if (!output) {
-    throw new Error("Stdout is empty");
-  }
   setOutput("output", output);
 
   // Set the output hit depending on whether the cache is found or not
