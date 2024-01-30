@@ -165378,44 +165378,17 @@ function isCacheFound(file, output) {
 
 var coreExports = requireCore();
 
-/**
- * Exec a command and gets the output.
- * Output will be streamed to the live console.
- * Returns promise with the stdout
- * @param command command to execute (can include additional args).
- * Must be correctly escaped.
- * @returns Promise<string> stdout
- */
-function getCommandOutput(command, trim) {
-    if (trim === void 0) { trim = true; }
-    return __awaiter$d(this, void 0, void 0, function () {
-        var stdout, output;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    coreExports.startGroup("Getting command output");
-                    return [4 /*yield*/, getExecOutput_1(command)];
-                case 1:
-                    stdout = (_a.sent()).stdout;
-                    output = trim ? stdout.trim() : stdout;
-                    if (!output) {
-                        throw new Error("The stdout of ".concat(command, " cannot be null or empty!"));
-                    }
-                    coreExports.endGroup();
-                    return [2 /*return*/, output];
-            }
-        });
-    });
-}
-
 function run(file) {
     return __awaiter$d(this, void 0, void 0, function () {
         var output, cacheFound;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getCommandOutput(coreExports.getInput("run", { required: true }))];
+                case 0: return [4 /*yield*/, getExecOutput_1(coreExports.getInput("run", { required: true }))];
                 case 1:
-                    output = _a.sent();
+                    output = (_a.sent()).stdout.trim();
+                    if (!output) {
+                        throw new Error("Stdout is empty");
+                    }
                     coreExports.setOutput("output", output);
                     return [4 /*yield*/, isCacheFound(file, output)];
                 case 2:
@@ -165428,4 +165401,8 @@ function run(file) {
 }
 // Cache file used as a placeholder
 var file = ".cache-command-action-file";
-run(file);
+run(file).catch(function (e) {
+    process.exitCode = 1;
+    if (e instanceof Error)
+        console.log("::error::".concat(e.message));
+});

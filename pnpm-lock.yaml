@@ -31,6 +31,9 @@ devDependencies:
   '@types/jest':
     specifier: ^29.5.11
     version: 29.5.11
+  '@types/node':
+    specifier: ^20.11.10
+    version: 20.11.10
   '@vercel/ncc':
     specifier: ^0.38.1
     version: 0.38.1
