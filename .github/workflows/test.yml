@@ -36,7 +36,7 @@ jobs:
       - uses: ./
         id: cache
         with:
-          run: sh -c "echo $RANDOM"
+          run: bash -c "echo $RANDOM"
 
       - name: Get outputs
         if: always()
