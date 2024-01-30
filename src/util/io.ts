@@ -10,5 +10,8 @@ export function getInput(name: string, required?: boolean): string {
 }
 
 export function setOutput(name: string, value: unknown) {
-  appendFileSync(process.env["GITHUB_OUTPUT"], `${name}=${value}\n`);
+  const output = process.env["GITHUB_OUTPUT"];
+  if (!output) return;
+
+  appendFileSync(output, `${name}=${value}\n`);
 }

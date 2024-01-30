@@ -165139,7 +165139,7 @@ var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisAr
     });
 };
 Object.defineProperty(cache$1, "__esModule", { value: true });
-var saveCache_1 = cache$1.saveCache = restoreCache_1 = cache$1.restoreCache = cache$1.isFeatureAvailable = cache$1.ReserveCacheError = cache$1.ValidationError = void 0;
+var saveCache_1 = cache$1.saveCache = restoreCache_1 = cache$1.restoreCache = isFeatureAvailable_1 = cache$1.isFeatureAvailable = cache$1.ReserveCacheError = cache$1.ValidationError = void 0;
 const core = __importStar(requireCore());
 const path = __importStar(require$$1$4);
 const utils = __importStar(cacheUtils);
@@ -165183,7 +165183,7 @@ function checkKey(key) {
 function isFeatureAvailable() {
     return !!process.env['ACTIONS_CACHE_URL'];
 }
-cache$1.isFeatureAvailable = isFeatureAvailable;
+var isFeatureAvailable_1 = cache$1.isFeatureAvailable = isFeatureAvailable;
 /**
  * Restores cache from keys
  *
@@ -165351,12 +165351,21 @@ function isCacheFound(file, output) {
         var cacheOutput, cacheId;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, restoreCache_1([file], output, [], {
-                        lookupOnly: true,
-                    })];
+                case 0:
+                    if (!isFeatureAvailable_1()) {
+                        throw new Error("Cache is not available");
+                    }
+                    return [4 /*yield*/, restoreCache_1([file], output, [], {
+                            lookupOnly: true,
+                        })];
                 case 1:
                     cacheOutput = _a.sent();
-                    if (!!cacheOutput) return [3 /*break*/, 3];
+                    // Cache found
+                    if (cacheOutput) {
+                        console.log("Cache found from output: ".concat(output));
+                        return [2 /*return*/, true];
+                    }
+                    // Cache not found
                     // Create the cache file to be used as a placeholder before saving cache
                     node_fs.closeSync(node_fs.openSync(file, "w"));
                     return [4 /*yield*/, saveCache_1([file], output)];
@@ -165368,9 +165377,6 @@ function isCacheFound(file, output) {
                     // Delete the file after saving cache as it is no longer needed
                     node_fs.unlinkSync(file);
                     return [2 /*return*/, false];
-                case 3:
-                    console.log("Cache found from output: ".concat(output));
-                    return [2 /*return*/, true];
             }
         });
     });
@@ -165383,7 +165389,10 @@ function getInput(name, required) {
     return v.trim();
 }
 function setOutput(name, value) {
-    fs$6.appendFileSync(process.env["GITHUB_OUTPUT"], "".concat(name, "=").concat(value, "\n"));
+    var output = process.env["GITHUB_OUTPUT"];
+    if (!output)
+        return;
+    fs$6.appendFileSync(output, "".concat(name, "=").concat(value, "\n"));
 }
 
 function run(file) {
@@ -165395,7 +165404,7 @@ function run(file) {
                 case 1:
                     output = (_a.sent()).stdout.trim();
                     if (!output)
-                        throw new Error("Stdout is null");
+                        throw new Error("stdout is null");
                     setOutput("output", output);
                     return [4 /*yield*/, isCacheFound(file, output)];
                 case 2:
@@ -165410,6 +165419,8 @@ function run(file) {
 var file = ".cache-command-action-file";
 run(file).catch(function (e) {
     process.exitCode = 1;
-    if (e instanceof Error)
+    if (e instanceof Error) {
         console.log("::error::".concat(e.message));
+        console.log(e.stack);
+    }
 });
