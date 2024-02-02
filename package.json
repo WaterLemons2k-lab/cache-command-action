@@ -18,7 +18,7 @@
   "packageManager": "pnpm@8.7.4",
   "main": "dist/index.js",
   "dependencies": {
-    "@actions/cache": "^3.2.3",
+    "@actions/cache": "^3.2.4",
     "@actions/exec": "^1.1.1"
   },
   "scripts": {
